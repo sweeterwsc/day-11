@@ -1,0 +1,438 @@
+//  01...........
+package games.exercise.exercise05;
+
+public class BankAccount {
+    private double balance;
+
+    // 存款
+    public void deposit(double amount){
+        balance += amount;
+    }
+    // 取款
+    public void withdraw(double amount){
+        balance -= amount;
+    }
+
+    public BankAccount(double balance) {
+        this.balance = balance;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+}
+package games.exercise.exercise05;
+
+public class CheckingAccount extends BankAccount{
+    public CheckingAccount(double balance) {
+        super(balance);
+    }
+
+    @Override
+    public void deposit(double amount) {
+        super.deposit(amount-1);
+    }
+
+    @Override
+    public void withdraw(double amount) {
+        super.withdraw(amount+1);
+    }
+}
+package games.exercise.exercise05;
+
+public class SavingsAccount extends BankAccount{
+    private double rate = 0.0013;
+    private int count = 3;
+    public void earnMonthlyInterest(){
+        count = 3;
+        super.deposit(getBalance() * rate);
+    }
+
+    @Override
+    public void deposit(double amount) {
+        if(count > 0){
+            super.deposit(amount);
+            count --;
+        }else super.deposit(amount - 1);
+
+    }
+
+    @Override
+    public void withdraw(double amount) {
+        if(count > 0){
+            super.withdraw(amount);
+            count --;
+        }else super.withdraw(amount + 1);
+    }
+
+    public SavingsAccount(double balance) {
+        super(balance);
+    }
+    public double getRate() {
+        return rate;
+    }
+    public void setRate(double rate) {
+        this.rate = rate;
+    }
+    public int getCount() {
+        return count;
+    }
+    public void setCount(int count) {
+        this.count = count;
+    }
+}
+package games.exercise.exercise05;
+
+public class Test {
+    public static void main(String[] args) {
+//        CheckingAccount checkingAccount = new CheckingAccount(3000);
+//        checkingAccount.deposit(300);
+//        System.out.println(checkingAccount.getBalance());// 3000+300-1 = 3299
+//        checkingAccount.withdraw(99);
+//        System.out.println(checkingAccount.getBalance());//3299-99-1 = 3199
+
+        SavingsAccount s1 = new SavingsAccount(3000);
+        s1.deposit(100);
+        s1.deposit(100);
+        s1.deposit(100);
+        System.out.println(s1.getBalance());//前三次免手续费 3000+300=3300
+        s1.deposit(100);
+        System.out.println(s1.getBalance());//3300+100-1=3399
+
+        s1.earnMonthlyInterest();
+        System.out.println(s1.getBalance());// 3399+3399*0.0013 = 3403.4187
+        s1.deposit(200);
+        System.out.println(s1.getBalance());// 3403.4187 + 200 = 3603.4187
+
+    }
+}
+
+
+
+// 02.......
+package games.exercise.exercise06;
+
+public class LabeledPoint extends Point{
+    private String date;
+
+    public LabeledPoint(String date,double x, double y) {
+        super(x, y);
+        this.date = date;
+    }
+    public String getDate() {
+        return date;
+    }
+    public void setDate(String date) {
+        this.date = date;
+    }
+}
+package games.exercise.exercise06;
+
+public class Point {
+    private double x;
+    private double y;
+
+    public Point(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public double getX() {
+        return x;
+    }
+    public void setX(double x) {
+        this.x = x;
+    }
+    public double getY() {
+        return y;
+    }
+    public void setY(double y) {
+        this.y = y;
+    }
+}
+package games.exercise.exercise06;
+
+public class Test {
+    public static void main(String[] args) {
+        LabeledPoint l1 = new LabeledPoint("black",23,4.5);
+    }
+}
+
+
+
+
+//  03.......
+package games.exercise.exercise07;
+
+public class Doctor {
+    private String name;
+    private int age;
+    private String job;
+    private String gender;
+    private double salary;
+
+    public boolean equals(Object object){
+        // 判断两个比较对象是否相同
+        if(this == object){
+            return true;
+        }
+        // 判断object是否是Doctor类型或其子类
+        if(!(object instanceof Doctor)){
+            return false;
+        }
+        //向下转型：
+        Doctor doctor = (Doctor)object;
+        if(doctor.age == this.age && doctor.gender.equals(this.gender) && doctor.job.equals(this.job) && doctor.name.equals(this.name) &&doctor.salary == this.salary){
+            return true;
+        }
+        return false;
+    }
+
+
+    public Doctor(String name, int age, String job, String gender, double salary) {
+        this.name = name;
+        this.age = age;
+        this.job = job;
+        this.gender = gender;
+        this.salary = salary;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+}
+package games.exercise.exercise07;
+
+public class Test {
+    public static void main(String[] args) {
+        Doctor doctor1 = new Doctor("jack", 23, "男", "worker", 5500);
+        Doctor doctor2 = new Doctor("jack", 23, "男", "worker", 5500);
+        System.out.println(doctor1.equals(doctor2));// true
+    }
+}
+
+
+
+
+
+// 04.....
+package games.exercise.exercise08;
+
+public class Person {
+    private String name;
+    private String sex;
+    private int age;
+
+    public void printfo(){
+        System.out.println("姓名：" + name+"\n" +"年龄：" + age + "\n" +"性别：" + sex);
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", age=" + age +
+                '}';
+    }
+
+    public String play(){
+        return name + "爱玩";
+    }
+
+    public Person(String name, String sex, int age) {
+        this.name = name;
+        this.sex = sex;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+package games.exercise.exercise08;
+
+public class Student extends Person{
+
+    private String id;
+
+    @Override
+    public String play() {
+        return super.play()+"足球";
+    }
+
+    @Override
+    public void printfo() {
+        System.out.println("学生信息如下：");
+        super.printfo();
+        System.out.println("学号："+id);
+        study();
+        System.out.println(play());
+    }
+
+    public void study(){
+        System.out.println("我承诺，我会好好学习");
+    }
+
+    public Student(String name, String sex, int age, String id) {
+        super(name, sex, age);
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+}
+package games.exercise.exercise08;
+
+public class Teacher extends Person{
+    private int work_age;
+
+    @Override
+    public void printfo() {
+        System.out.println("教师信息如下：");
+        super.printfo();
+        System.out.println("工龄："+work_age);
+        teach();
+        System.out.println(play());
+    }
+
+    @Override
+    public String play() {
+        return super.play()+"象棋";
+    }
+
+    public void teach(){
+        System.out.println("我承诺，我会认真教书");
+    }
+
+    public Teacher(String name, String sex, int age, int work_age) {
+        super(name, sex, age);
+        this.work_age = work_age;
+    }
+
+    public int getWork_age() {
+        return work_age;
+    }
+
+    public void setWork_age(int work_age) {
+        this.work_age = work_age;
+    }
+}
+package games.exercise.exercise08;
+
+public class Test {
+    public static void main(String[] args) {
+
+//        Student student1 = new Student("小明", "男", 23, "20201234");
+//        student1.printfo();
+//        System.out.println("---------------------------");
+//        Teacher teacher1 = new Teacher("张飞", "男", 34, 7);
+//        teacher1.printfo();
+
+        Person[] persons = new Person[4];
+        persons[0] = new Student("jack","男",18,"20001012");
+        persons[1] = new Student("marry","女",17,"20001013");
+        persons[2] = new Teacher("smith","男",34,10);
+        persons[3] = new Teacher("mack","男",40,12);
+
+        Test test = new Test();
+        test.bubbleSort(persons);
+        for (int i = 0; i < persons.length; i++) {
+            System.out.println(persons[i]);
+        }
+
+        // 遍历数组，调用test方法
+        for (int i = 0; i < persons.length; i++) {
+            test.test(persons[i]);
+        }
+    }
+
+    //  方法：形参为Person类，功能：调用该学生的study或教师的teach方法
+    public void test(Person person){
+        if(person instanceof Student){
+            ((Student) person).study();
+        }else if(person instanceof Teacher){
+            ((Teacher) person).teach();
+        }else {
+            System.out.println("do nothing....");
+        }
+    }
+
+    // 方法：完成按照年龄从高到低排序
+    public void bubbleSort(Person persons[]){
+        Person temp;
+        for (int i = 0; i < persons.length - 1; i++) {
+            for (int j = 0; j < persons.length -1 -i; j++) {
+                if(persons[j].getAge() < persons[j+1].getAge()){
+                    temp = persons[j];
+                    persons[j] = persons[j+1];
+                    persons[j+1] = temp;
+                }
+            }
+        }
+    }
+}
